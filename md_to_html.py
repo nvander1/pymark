@@ -30,6 +30,23 @@ def paragraphs(corpus):
     return all_paras_added
 
 
+def lists(corpus):
+    r"""
+    Inserts unorded list tags appropriately into corpus.
+
+    Parameters
+    ----------
+    corpus : str
+        The raw or partially converted Markdown text.
+
+    Returns
+    -------
+    all_lists_added : str
+        The corpus after list tags are inserted.
+    """
+    pass
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

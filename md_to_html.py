@@ -43,8 +43,16 @@ def lists(corpus):
     -------
     all_lists_added : str
         The corpus after list tags are inserted.
+
+    >>> text = '- i1\n- i2\n- i3'
+    >>> lists(text)
+    '<ul><li>i1</li>\n<li>i2</li>\n<li>i3</li></ul>'
     """
-    pass
+# wrap each item in own list
+    wrap = re.sub(r'- (.*)', '<ul><li>\g<1></li></ul>', corpus)
+# remove back-to-back </ul><ul>
+    all_lists_added = re.sub(r'</ul>\n(.*)<ul>', '\n', wrap)
+    return all_lists_added
 
 
 if __name__ == '__main__':

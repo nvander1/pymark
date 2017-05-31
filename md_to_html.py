@@ -55,6 +55,27 @@ def lists(corpus):
     return all_lists_added
 
 
+def html(corpus):
+    r"""
+    Converts raw Markdown into HTML.
+
+    Parameters
+    ----------
+    corpus : str
+        The raw Markdown.
+
+    Returns
+    -------
+    converted_text : str
+        Resulting HTML from converting `corpus`.
+
+    >>> text = 'P1\n\nP2\n- 1\n- 2\nP2\n\nP3'
+    >>> html(text)
+    '<p>P1</p>\n<p>P2\n<ul><li>1</li>\n<li>2</li></ul>\nP2</p>\n<p>P3</p>'
+    """
+    return paragraphs(lists(corpus))
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()

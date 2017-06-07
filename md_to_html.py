@@ -49,7 +49,7 @@ def lists(corpus):
     '<ul><li>i1</li>\n<li>i2</li>\n<li>i3</li></ul>'
     """
 # wrap each item in own list
-    wrap = re.sub(r'- (.*)', '<ul><li>\g<1></li></ul>', corpus)
+    wrap = re.sub(r'- (.*)', '<ul><li>\1</li></ul>', corpus)
 # remove back-to-back </ul><ul>
     all_lists_added = re.sub(r'</ul>\n(.*)<ul>', '\n', wrap)
     return all_lists_added
@@ -74,7 +74,7 @@ def italics(corpus):
     >>> italics(text)
     '<em>italic</em>'
     """
-    return re.sub(r'\*([^\n]+)\*', '<em>\g<1></em>', corpus)
+    return re.sub(r'\*([^\n]+)\*', '<em>\1</em>', corpus)
 
 
 def bold(corpus):
@@ -96,7 +96,7 @@ def bold(corpus):
     >>> bold(text)
     '<strong>bold</strong>'
     """
-    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\g<1></strong>', corpus)
+    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\1</strong>', corpus)
 
 
 def html(corpus):

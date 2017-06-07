@@ -55,6 +55,50 @@ def lists(corpus):
     return all_lists_added
 
 
+def italics(corpus):
+    r"""
+    Italicizes words in the markdown that are surrounded by
+    single asterisks.
+
+    Parameters
+    ----------
+    corpus : str
+        The raw or partially converted Markdown text.
+
+    Returns
+    -------
+    str
+        The `corpus` with <em> tags inserted.
+
+    >>> text = '*italic*'
+    >>> italics(text)
+    '<em>italic</em>'
+    """
+    return re.sub(r'\*([^\n]+)\*', '<em>\g<1></em>', corpus)
+
+
+def bold(corpus):
+    r"""
+    Bolds words in the markdown that are surrounded by
+    double asterisks.
+
+    Parameters
+    ----------
+    corpus : str
+        The raw or partially converted Markdown text.
+
+    Returns
+    -------
+    str
+        The `corpus` with <strong> tags inserted.
+
+    >>> text = '**bold**'
+    >>> bold(text)
+    '<strong>bold</strong>'
+    """
+    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\g<1></strong>', corpus)
+
+
 def html(corpus):
     r"""
     Converts raw Markdown into HTML.
@@ -72,8 +116,11 @@ def html(corpus):
     >>> text = 'P1\n\nP2\n- 1\n- 2\nP2\n\nP3'
     >>> html(text)
     '<p>P1</p>\n<p>P2\n<ul><li>1</li>\n<li>2</li></ul>\nP2</p>\n<p>P3</p>'
+    >>> bolditalic = '***hello***'
+    >>> html(bolditalic)
+    '<p><strong><em>hello</em></strong></p>'
     """
-    return paragraphs(lists(corpus))
+    return paragraphs(lists(italics(bold(corpus))))
 
 
 if __name__ == '__main__':

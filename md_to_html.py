@@ -99,6 +99,42 @@ def bold(corpus):
     return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\g<1></strong>', corpus)
 
 
+def headers(corpus):
+    r"""
+    Places headers up to h6 into the corpus.
+
+    Parameters
+    ----------
+    corpus : str
+        Markdown string to convert.
+
+    Returns
+    -------
+        A string of HTML converted from the `corpus`.
+
+    >>> headers('#hello')
+    '#hello'
+    >>> headers('# hello')
+    '<h1>hello</h1>'
+    >>> headers('## hello')
+    '<h2>hello</h2>'
+    >>> headers('###  \t hello')
+    '<h3>hello</h3>'
+    >>> headers('####\thello')
+    '<h4>hello</h4>'
+    >>> headers('#####\t   hello')
+    '<h5>hello</h5>'
+    >>> headers('######    hello')
+    '<h6>hello</h6>'
+    >>> headers('#######\t hello')
+    '#######\t hello'
+    """
+    for i in range(6, 0, -1):
+        corpus = re.sub(r'(^|\n)'+f'({"#"*i})'+'[ \t]+([^\n]+)',
+                f'<h{i}>\g<3></h{i}>', corpus)
+    return corpus
+
+
 def html(corpus):
     r"""
     Converts raw Markdown into HTML.

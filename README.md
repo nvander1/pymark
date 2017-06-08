@@ -6,3 +6,4 @@ Markdown to HTML converter done by regex.
 - Unordered Lists
 - Italics
 - Bold
+- Headers

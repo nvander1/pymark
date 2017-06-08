@@ -49,7 +49,7 @@ def lists(corpus):
     '<ul><li>i1</li>\n<li>i2</li>\n<li>i3</li></ul>'
     """
 # wrap each item in own list
-    wrap = re.sub(r'- (.*)', '<ul><li>\1</li></ul>', corpus)
+    wrap = re.sub(r'- (.*)', '<ul><li>\g<1></li></ul>', corpus)
 # remove back-to-back </ul><ul>
     all_lists_added = re.sub(r'</ul>\n(.*)<ul>', '\n', wrap)
     return all_lists_added
@@ -74,7 +74,7 @@ def italics(corpus):
     >>> italics(text)
     '<em>italic</em>'
     """
-    return re.sub(r'\*([^\n]+)\*', '<em>\1</em>', corpus)
+    return re.sub(r'\*([^\n]+)\*', '<em>\g<1></em>', corpus)
 
 
 def bold(corpus):
@@ -96,7 +96,7 @@ def bold(corpus):
     >>> bold(text)
     '<strong>bold</strong>'
     """
-    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\1</strong>', corpus)
+    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\g<1></strong>', corpus)
 
 
 def html(corpus):
@@ -115,12 +115,13 @@ def html(corpus):
 
     >>> text = 'P1\n\nP2\n- 1\n- 2\nP2\n\nP3'
     >>> html(text)
-    '<p>P1</p>\n<p>P2\n<ul><li>1</li>\n<li>2</li></ul>\nP2</p>\n<p>P3</p>'
+    '<article><p>P1</p>\n<p>P2\n<ul><li>1</li>\n<li>2</li></ul>\nP2</p>\n<p>P3</p></article>'
     >>> bolditalic = '***hello***'
     >>> html(bolditalic)
-    '<p><strong><em>hello</em></strong></p>'
+    '<article><p><strong><em>hello</em></strong></p></article>'
     """
-    return paragraphs(lists(italics(bold(corpus))))
+    text = paragraphs(lists(italics(bold(corpus))))
+    return f'<article>{text}</article>'
 
 
 if __name__ == '__main__':

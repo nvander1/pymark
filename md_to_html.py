@@ -1,6 +1,5 @@
 """
-This module is a standalone script to convert Markdown into HTML.
-It reads Markdown from stdin and writes HTML to stdout.
+Convert Markdown into HTML.
 """
 
 
@@ -52,11 +51,11 @@ def lists(corpus):
     '<ol><li>i1</li>\n<li>i2</li>\n<li>i3</li></ol>'
     """
 # wrap each unordered item in its own list
-    ul_wrapped = re.sub(r'(-|\+|\*) (.*)', '<ul><li>\g<2></li></ul>', corpus)
+    ul_wrapped = re.sub(r'(-|\+|\*) (.*)', r'<ul><li>\g<2></li></ul>', corpus)
 # remove back-to-back </ul><ul>
     ul_finished = re.sub(r'</ul>\n(.*)<ul>', '\n', ul_wrapped)
 # wrap each ordered item in its own list
-    ol_wrapped = re.sub(r'(\d+\.) (.*)', '<ol><li>\g<2></li></ol>', ul_finished)
+    ol_wrapped = re.sub(r'(\d+\.) (.*)', r'<ol><li>\g<2></li></ol>', ul_finished)
 # remove back-to-back </ul><ul>
     ol_ul_finished = re.sub(r'</ol>\n(.*)<ol>', '\n', ol_wrapped)
     return ol_ul_finished
@@ -81,7 +80,7 @@ def italics(corpus):
     >>> italics(text)
     '<em>italic</em>'
     """
-    return re.sub(r'\*([^\n]+)\*', '<em>\g<1></em>', corpus)
+    return re.sub(r'\*([^\n]+)\*', r'<em>\g<1></em>', corpus)
 
 
 def bold(corpus):
@@ -103,7 +102,7 @@ def bold(corpus):
     >>> bold(text)
     '<strong>bold</strong>'
     """
-    return re.sub(r'\*\*([^\n]+)\*\*', '<strong>\g<1></strong>', corpus)
+    return re.sub(r'\*\*([^\n]+)\*\*', r'<strong>\g<1></strong>', corpus)
 
 
 def headers(corpus):
@@ -138,7 +137,7 @@ def headers(corpus):
     """
     for i in range(6, 0, -1):
         corpus = re.sub(r'(^|\n)'+f'({"#"*i})'+'[ \t]+([^\n]+)',
-                        f'\g<1><h{i}>\g<3></h{i}>', corpus)
+                        fr'\g<1><h{i}>\g<3></h{i}>', corpus)
     return corpus
 
 

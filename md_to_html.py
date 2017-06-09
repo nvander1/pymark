@@ -166,6 +166,20 @@ def html(corpus):
     return f'<article>{text}</article>'
 
 
+def run():
+    """
+    Command line tool to convert Markdown file into HTML.
+    """
+    import argparse
+    parser = argparse.ArgumentParser(description='Convert Markdown into HTML.')
+    parser.add_argument('markdown_file')
+    args = parser.parse_args()
+    with open(args.markdown_file, 'r') as file_obj:
+        markdown = file_obj.read().rstrip('\n')
+    print(html(markdown))
+
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
+    run()

@@ -32,7 +32,7 @@ def paragraphs(corpus):
 
 def lists(corpus):
     r"""
-    Inserts unorded list tags appropriately into corpus.
+    Inserts list tags appropriately into corpus.
 
     Parameters
     ----------
@@ -41,18 +41,25 @@ def lists(corpus):
 
     Returns
     -------
-    all_lists_added : str
+    ol_ul_finished : str
         The corpus after list tags are inserted.
 
-    >>> text = '- i1\n- i2\n- i3'
-    >>> lists(text)
+    >>> ul_test = '- i1\n+ i2\n* i3'
+    >>> lists(ul_test)
     '<ul><li>i1</li>\n<li>i2</li>\n<li>i3</li></ul>'
+    >>> ul_test = '2. i1\n69. i2\n1337. i3'
+    >>> lists(ul_test)
+    '<ol><li>i1</li>\n<li>i2</li>\n<li>i3</li></ol>'
     """
-# wrap each item in own list
-    wrap = re.sub(r'(-|\+|\*) (.*)', '<ul><li>\g<2></li></ul>', corpus)
+# wrap each unordered item in its own list
+    ul_wrapped = re.sub(r'(-|\+|\*) (.*)', '<ul><li>\g<2></li></ul>', corpus)
 # remove back-to-back </ul><ul>
-    all_lists_added = re.sub(r'</ul>\n(.*)<ul>', '\n', wrap)
-    return all_lists_added
+    ul_finished = re.sub(r'</ul>\n(.*)<ul>', '\n', ul_wrapped)
+# wrap each ordered item in its own list
+    ol_wrapped = re.sub(r'(\d+\.) (.*)', '<ol><li>\g<2></li></ol>', ul_finished)
+# remove back-to-back </ul><ul>
+    ol_ul_finished = re.sub(r'</ol>\n(.*)<ol>', '\n', ol_wrapped)
+    return ol_ul_finished
 
 
 def italics(corpus):

@@ -49,7 +49,7 @@ def lists(corpus):
     '<ul><li>i1</li>\n<li>i2</li>\n<li>i3</li></ul>'
     """
 # wrap each item in own list
-    wrap = re.sub(r'- (.*)', '<ul><li>\g<1></li></ul>', corpus)
+    wrap = re.sub(r'(-|\+|\*) (.*)', '<ul><li>\g<2></li></ul>', corpus)
 # remove back-to-back </ul><ul>
     all_lists_added = re.sub(r'</ul>\n(.*)<ul>', '\n', wrap)
     return all_lists_added

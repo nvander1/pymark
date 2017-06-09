@@ -49,15 +49,23 @@ def lists(corpus):
     >>> ul_test = '2. i1\n69. i2\n1337. i3'
     >>> lists(ul_test)
     '<ol><li>i1</li>\n<li>i2</li>\n<li>i3</li></ol>'
+    >>> mixed_test = '- P1\n78. P2\n* P3'
+    >>> lists(mixed_test)
+    '<ul><li>P1</li></ul>\n\n<ol><li>P2</li></ol>\n\n<ul><li>P3</li></ul>'
     """
 # wrap each unordered item in its own list
     ul_wrapped = re.sub(r'(-|\+|\*) (.*)', r'<ul><li>\g<2></li></ul>', corpus)
-# remove back-to-back </ul><ul>
-    ul_finished = re.sub(r'</ul>\n(.*)<ul>', '\n', ul_wrapped)
 # wrap each ordered item in its own list
-    ol_wrapped = re.sub(r'(\d+\.) (.*)', r'<ol><li>\g<2></li></ol>', ul_finished)
+    ol_ul_wrapped = re.sub(r'(\d+\.) (.*)', r'<ol><li>\g<2></li></ol>', ul_wrapped)
+
+# separate unordered and ordered lists
+    separated = re.sub(r'</ul>\n(.*)<ol>', r'</ul>\n\n\g<1><ol>', ol_ul_wrapped)
+    separated = re.sub(r'</ol>\n(.*)<ul>', r'</ol>\n\n\g<1><ul>', separated)
+
 # remove back-to-back </ul><ul>
-    ol_ul_finished = re.sub(r'</ol>\n(.*)<ol>', '\n', ol_wrapped)
+    ul_finished = re.sub(r'</ul>\n(.*)<ul>', '\n', separated)
+# remove back-to-back </ul><ul>
+    ol_ul_finished = re.sub(r'</ol>\n(.*)<ol>', '\n', ul_finished)
     return ol_ul_finished
 
 

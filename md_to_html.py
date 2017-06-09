@@ -131,7 +131,7 @@ def headers(corpus):
     """
     for i in range(6, 0, -1):
         corpus = re.sub(r'(^|\n)'+f'({"#"*i})'+'[ \t]+([^\n]+)',
-                f'<h{i}>\g<3></h{i}>', corpus)
+                f'\g<1><h{i}>\g<3></h{i}>', corpus)
     return corpus
 
 
@@ -156,7 +156,7 @@ def html(corpus):
     >>> html(bolditalic)
     '<article><p><strong><em>hello</em></strong></p></article>'
     """
-    text = paragraphs(lists(italics(bold(corpus))))
+    text = paragraphs(lists(italics(bold(headers(corpus)))))
     return f'<article>{text}</article>'
 
 

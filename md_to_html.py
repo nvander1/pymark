@@ -138,7 +138,7 @@ def headers(corpus):
     """
     for i in range(6, 0, -1):
         corpus = re.sub(r'(^|\n)'+f'({"#"*i})'+'[ \t]+([^\n]+)',
-                f'\g<1><h{i}>\g<3></h{i}>', corpus)
+                        f'\g<1><h{i}>\g<3></h{i}>', corpus)
     return corpus
 
 

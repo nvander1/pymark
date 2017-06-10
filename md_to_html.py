@@ -44,13 +44,13 @@ def inline_links(corpus):
         Text with HTML links inserted.
 
     >>> simple = 'This is an [example link](http://example.com/).'
-    >>> inline_link(simple)
+    >>> inline_links(simple)
     'This is an <a href="http://example.com/">example link</a>.'
     >>> titled = 'This is an [example link](http://example.com/ "With a Title").'
-    >>> inline_link(titled)
+    >>> inline_links(titled)
     'This is an <a href="http://example.com/" title="With a Title">example link</a>.'
     """
-    with_titles = re.sub(r'\[(.*)\]\((.*) (".*")\)', r'<a href="\g<2>" title=\g<3>>\g<1></a>', corpus)
+    with_titles = re.sub(r'\[(.*)\]\((\S*)[ \t]*(".*")\)', r'<a href="\g<2>" title=\g<3>>\g<1></a>', corpus)
     all_inline_links = re.sub(r'\[(.*)\]\((.*)\)', r'<a href="\g<2>">\g<1></a>', with_titles)
     return all_inline_links
 

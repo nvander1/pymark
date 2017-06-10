@@ -8,3 +8,4 @@ Markdown to HTML converter done by regex.
 - Italics
 - Bold
 - Headers
+- Inline links

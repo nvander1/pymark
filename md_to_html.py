@@ -29,6 +29,32 @@ def paragraphs(corpus):
     return all_paras_added
 
 
+def inline_links(corpus):
+    r"""
+    Inserts inline links.
+
+    Parameters
+    ----------
+    corpus : str
+        The raw or partially converted text.
+
+    Returns
+    -------
+    str
+        Text with HTML links inserted.
+
+    >>> simple = 'This is an [example link](http://example.com/).'
+    >>> inline_link(simple)
+    'This is an <a href="http://example.com/">example link</a>.'
+    >>> titled = 'This is an [example link](http://example.com/ "With a Title").'
+    >>> inline_link(titled)
+    'This is an <a href="http://example.com/" title="With a Title">example link</a>.'
+    """
+    with_titles = re.sub(r'\[(.*)\]\((.*) (".*")\)', r'<a href="\g<2>" title=\g<3>>\g<1></a>', corpus)
+    all_inline_links = re.sub(r'\[(.*)\]\((.*)\)', r'<a href="\g<2>">\g<1></a>', with_titles)
+    return all_inline_links
+
+
 def lists(corpus):
     r"""
     Inserts list tags appropriately into corpus.
@@ -170,7 +196,7 @@ def html(corpus):
     >>> html(bolditalic)
     '<article><p><strong><em>hello</em></strong></p></article>'
     """
-    text = paragraphs(lists(italics(bold(headers(corpus)))))
+    text = paragraphs(lists(italics(bold(headers(inline_links(corpus))))))
     return f'<article>{text}</article>'
 
 
